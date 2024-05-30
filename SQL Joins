@@ -1,0 +1,79 @@
+USE bookstore;
+
+SELECT orderinfo.itemid, customer.customername
+FROM orderinfo
+INNER JOIN customer ON orderinfo.customerid = customer.customerid;
+## All fields being returned have values, however only the customers who haven't ordered items are being returned using the inner join function here. ##
+
+SELECT o.itemid, c.customername
+FROM orderinfo AS o 
+INNER JOIN customer AS c ON o.customerid = c.customerid;
+## We can also simplify the amount of code by assigining an alias for this query.  This will return the same data as the previous.  It's usually best practice this way. ##
+
+SELECT i.booktitle, a.authorname
+FROM item AS i
+INNER JOIN author AS a ON i.authorid = a.authorid;
+## This inner join query will return the books title and the corresponding author's name from the item and author table ##
+
+SELECT i.booktitle, a.authorname
+FROM item AS i
+LEFT JOIN author as a ON i.authorid = a.authorid
+ORDER BY i.booktitle;
+## This left join query returns every entry in the book title, including null values, in alphabetical order.  While only the matching values from the authorname table are returned, including the null values ##
+
+SELECT c.customername, o.itemid
+FROM customer AS c
+LEFT JOIN orderinfo AS o ON c.customerid = o.customerid
+ORDER BY c.customername;
+## This left join query returns all customers from the customername column, bringing us the item from the itemid column that each customer has ordered.  Customers who did not order any items will have a null value in its place. ##
+
+SELECT o.itemid, c.customername
+FROM orderinfo AS o
+RIGHT JOIN customer AS c ON o.customerid = c.customerid
+ORDER BY c.customername;
+## This right join query returns only the matching item values, including null values, corresponding to all of the customers. ##
+
+SELECT a.authorname, i.booktitle
+FROM author AS a
+RIGHT JOIN item as i ON a.authorid = i.authorid
+ORDER by a.authorname;
+## This right join query returns all book titles on the right hand side, with the matching author name values on the left hand side. Any book values that are not matched with an author will show null values on the left hand side. ##
+
+SELECT e.firstname AS EmployeeName, em.firstname AS ManagerName
+FROM employees e
+INNER JOIN employees em
+ON e.managerid = em.managerid;
+## This self-join query combines both the employee id and manager id values into a whole table containing the employee and manager names under the EmployeeName column, and only the managers in the ManagerName column##
+
+SELECT *
+FROM item
+CROSS JOIN author;
+## This cross join query returns a table containing all values from the item and author tables.  This includes the authorid columns from both tables which have different values. ##
+
+SELECT a.authorname, i.booktitle
+FROM author AS a
+INNER JOIN item AS i ON a.authorid = i.authorid;
+## This inner join function returns all author names, with any matching books if they appear in both the author and item tables. ##
+
+SELECT city
+FROM customer
+UNION
+SELECT city FROM supplier
+ORDER BY city;
+## This union function returns only the unique values (no duplicates) from the city column in the supplier and customer table. ##
+
+SELECT city
+FROM customer
+UNION ALL
+SELECT city FROM supplier
+ORDER BY city;
+
+## This union all query returns all values (including duplicates) in the city column of the supplier and customer table. ##
+
+SELECT customername 
+FROM customer
+UNION
+SELECT firstname FROM employees
+ORDER BY customername;
+
+## This union query returns only the unique values of all names from the customer and employees table. ##
